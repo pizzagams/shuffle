@@ -246,7 +246,98 @@ alert(g+' launching...')
 
 function createWindow(title,html){
 const w=window.open('','_blank')
-w.document.write(`<!DOCTYPE html><html><head><title>${title}</title><script src="https://cdn.tailwindcss.com"></script><style>body{background:#0b0b12;color:white;font-family:Inter,sans-serif;padding:20px}.card{background:#171722;border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:20px}.btn{background:linear-gradient(90deg,#a855f7,#d946ef);color:black;font-weight:800;border-radius:16px;padding:12px 20px}</style></head><body>${html}</body></html>`)
+w.document.write(`<!DOCTYPE html><html><head><title>${title}</title><script src="https://cdn.tailwindcss.com"></script><style>body{background:#0b0b12;color:white;font-family:Inter,sans-serif;padding:20px}.card{background:#171722;border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:20px}.btn{background:linear-gradient(90deg,#a855f7,#d946ef);color:black;font-weight:800;border-radius:16px;padding:12px 20px}</style></head><body>${html}<script>
+// GAME-SPECIFIC SYSTEMS
+// Systems now initialize ONLY when their game is opened.
+
+function loadGameSystems(game){
+  if(game==='Slots') return openSlots()
+  if(game==='Blackjack') return openBlackjack()
+  if(game==='Baccarat') return openBaccarat()
+  if(game==='Plinko') return openPlinko()
+  if(game==='Case Battles') return openCaseBattle()
+  if(game==='Sportsbook') return openSportsbook()
+}
+
+function openSlots(){
+createWindow('Slots',`
+<div class='card max-w-3xl mx-auto text-center'>
+<h1 class='text-6xl font-black mb-8'>Slots</h1>
+<div id='reels' class='grid grid-cols-3 gap-4 text-8xl mb-8'>
+<div class='bg-black/30 rounded-3xl p-8'>💎</div>
+<div class='bg-black/30 rounded-3xl p-8'>7️⃣</div>
+<div class='bg-black/30 rounded-3xl p-8'>🔥</div>
+</div>
+<button class='btn text-2xl px-10 py-5 rounded-2xl' onclick='spin()'>SPIN</button>
+<script>
+const symbols=['💎','7️⃣','🔥','⚡','👑']
+function spin(){
+const r=[0,1,2].map(()=>symbols[Math.floor(Math.random()*symbols.length)])
+reels.innerHTML=r.map(v=>'<div class="bg-black/30 rounded-3xl p-8">'+v+'</div>').join('')
+}
+</script>`)
+}
+
+function openBaccarat(){
+createWindow('Baccarat',`
+<div class='card max-w-4xl mx-auto'>
+<h1 class='text-6xl font-black mb-8'>Baccarat</h1>
+<div class='grid grid-cols-2 gap-6 mb-8'>
+<div class='bg-black/30 rounded-3xl p-8 text-center'>
+<div class='text-zinc-500 mb-2'>PLAYER</div>
+<div id='p' class='text-7xl font-black'>0</div>
+</div>
+<div class='bg-black/30 rounded-3xl p-8 text-center'>
+<div class='text-zinc-500 mb-2'>BANKER</div>
+<div id='b' class='text-7xl font-black'>0</div>
+</div>
+</div>
+<button class='btn px-8 py-4 rounded-2xl' onclick='deal()'>DEAL</button>
+<script>
+function deal(){
+p.innerText=Math.floor(Math.random()*10)
+b.innerText=Math.floor(Math.random()*10)
+}
+</script>`)
+}
+
+function openSportsbook(){
+createWindow('Sportsbook',`
+<div class='card max-w-5xl mx-auto'>
+<h1 class='text-6xl font-black mb-8'>Sportsbook</h1>
+<div class='space-y-4'>
+${[
+['Dragons vs Wolves','1.82'],
+['Titans vs Kings','2.14'],
+['Nova vs Eclipse','1.47']
+].map(g=>`
+<div class='bg-black/30 rounded-3xl p-6 flex items-center justify-between'>
+<div>
+<div class='text-2xl font-black'>${g[0]}</div>
+<div class='text-zinc-500'>Live Match</div>
+</div>
+<button class='btn px-6 py-3 rounded-2xl'>${g[1]}</button>
+</div>`).join('')}
+</div>`)
+}
+
+function openCaseBattle(){
+createWindow('Case Battles',`
+<div class='card max-w-4xl mx-auto text-center'>
+<h1 class='text-6xl font-black mb-8'>Case Battles</h1>
+<div class='grid grid-cols-2 gap-6 mb-8'>
+<div class='bg-black/30 rounded-3xl p-8'>Player 1</div>
+<div class='bg-black/30 rounded-3xl p-8'>Player 2</div>
+</div>
+<button class='btn px-8 py-4 rounded-2xl'>START BATTLE</button>
+</div>`)
+}
+
+window.addEventListener('resize',()=>{
+  document.body.style.zoom=Math.min(window.innerWidth/1440+0.1,1)
+})
+</script>
+</body></html>`)
 }
 
 function openCrash(){
