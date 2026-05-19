@@ -6,59 +6,122 @@
   <title>ShuffleX</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      margin: 0;
-      background: #090611;
-      color: white;
-      font-family: Inter, sans-serif;
-      overflow-x: hidden;
-    }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+margin:0;
+background:#07070b;
+color:#fff;
+font-family:Inter,system-ui,sans-serif;
+overflow-x:hidden;
+background-image:
+radial-gradient(circle at top right,rgba(168,85,247,.12),transparent 30%),
+radial-gradient(circle at bottom left,rgba(217,70,239,.08),transparent 35%);
+}
 
-    .glow {
-      box-shadow: 0 0 40px rgba(168,85,247,.35);
-    }
+.sidebar{
+background:rgba(12,12,18,.92);
+border-right:1px solid rgba(255,255,255,.05);
+backdrop-filter:blur(20px);
+}
 
-    .card {
-      background: linear-gradient(180deg,#151022,#0f0b17);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 28px;
-      transition: .25s;
-    }
+.panel{
+background:linear-gradient(180deg,#14141d,#0f0f16);
+border:1px solid rgba(255,255,255,.06);
+border-radius:30px;
+box-shadow:
+0 10px 40px rgba(0,0,0,.35),
+inset 0 1px 0 rgba(255,255,255,.04);
+}
 
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(168,85,247,.45);
-    }
+.btn{
+background:linear-gradient(135deg,#a855f7,#d946ef);
+color:#fff;
+font-weight:800;
+border:none;
+transition:.2s;
+cursor:pointer;
+}
 
-    .sidebar-btn {
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.04);
-      transition: .2s;
-    }
+.btn:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 30px rgba(217,70,239,.3);
+}
 
-    .sidebar-btn:hover {
-      background: rgba(168,85,247,.14);
-      border-color: rgba(168,85,247,.4);
-    }
+.game{
+position:relative;
+overflow:hidden;
+transition:.25s;
+}
 
-    .game-img {
-      transition: .35s;
-    }
+.game::before{
+content:'';
+position:absolute;
+inset:0;
+background:linear-gradient(to top,rgba(0,0,0,.75),transparent 55%);
+z-index:1;
+}
 
-    .game-card:hover .game-img {
-      transform: scale(1.08);
-    }
+.game:hover{
+transform:translateY(-6px) scale(1.01);
+border-color:rgba(217,70,239,.35);
+}
 
-    .pulse {
-      animation: pulse 1.3s infinite;
-    }
+.game img{
+width:100%;
+height:100%;
+object-fit:cover;
+filter:saturate(1.05) contrast(1.05);
+transition:transform .35s;
+}
 
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: .55; }
-      100% { opacity: 1; }
-    }
-  </style>
+.game:hover img{
+transform:scale(1.06);
+}
+
+.logo-badge{
+background:linear-gradient(135deg,#c084fc,#d946ef);
+box-shadow:0 10px 40px rgba(168,85,247,.35);
+}
+
+.live-dot{
+width:10px;
+height:10px;
+border-radius:999px;
+background:#4ade80;
+animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:1}
+50%{opacity:.35}
+100%{opacity:1}
+}
+
+.chatmsg{
+padding:12px;
+border-radius:18px;
+background:#161621;
+margin-bottom:10px;
+font-size:14px;
+border:1px solid rgba(255,255,255,.04);
+}
+
+.stat-pill{
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.06);
+backdrop-filter:blur(14px);
+}
+
+input{
+color:white;
+border:none;
+}
+
+input:focus{
+outline:2px solid rgba(217,70,239,.4);
+}
+</style>
 </head>
 <body>
   <button id="mobileMenuBtn" class="lg:hidden fixed top-5 left-5 z-[100] bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black w-12 h-12 rounded-2xl font-black shadow-2xl shadow-fuchsia-500/30">
@@ -97,186 +160,474 @@
     </aside>
 
     <main class="flex-1 p-6">
-      <div class="flex items-center justify-between mb-8">
-        <div>
-          <div class="text-zinc-500 text-sm mb-2">Online Players</div>
-          <div class="text-5xl font-black">182,491</div>
-        </div>
+<section class="panel rounded-[30px] p-8 mb-8">
+<h1 class="text-6xl font-black mb-4">CRASH</h1>
+<p class="text-zinc-400 mb-6">Professional styled casino UI with fake authentication, VIP levels, rewards, and playable games.</p>
+<div class="flex gap-4 flex-wrap">
+<button onclick="startCrash()" class="btn px-8 py-4 rounded-2xl">Play Crash</button>
+<button onclick="document.getElementById('loginModal').style.display='flex'" class="panel px-8 py-4 rounded-2xl">Log In</button>
+<button onclick="document.getElementById('signupModal').style.display='flex'" class="btn px-8 py-4 rounded-2xl">Sign Up</button>
+</div>
+</section>
 
-        <div class="flex gap-3">
-          <button class="px-5 py-3 rounded-2xl bg-white/5">Log In</button>
-          <button class="px-6 py-3 rounded-2xl bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black glow">Sign Up</button>
+<section>
+<div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6" id="games"></div>
+</section>
+
+<div id="loginModal" style="display:none" class="fixed inset-0 bg-black/70 z-50 items-center justify-center p-6">
+<div class="panel rounded-[30px] p-8 max-w-md w-full">
+<h2 class="text-4xl font-black mb-6">Log In</h2>
+<input class="w-full p-4 rounded-2xl bg-black/30 mb-4" placeholder="Username">
+<input class="w-full p-4 rounded-2xl bg-black/30 mb-6" type="password" placeholder="Password">
+<button onclick="fakeLogin()" class="btn w-full py-4 rounded-2xl">Continue</button>
+</div>
+</div>
+
+<div id="signupModal" style="display:none" class="fixed inset-0 bg-black/70 z-50 items-center justify-center p-6">
+<div class="panel rounded-[30px] p-8 max-w-md w-full">
+<h2 class="text-4xl font-black mb-6">Create Account</h2>
+<input class="w-full p-4 rounded-2xl bg-black/30 mb-4" placeholder="Username">
+<input class="w-full p-4 rounded-2xl bg-black/30 mb-4" placeholder="Email">
+<input class="w-full p-4 rounded-2xl bg-black/30 mb-6" type="password" placeholder="Password">
+<button onclick="fakeSignup()" class="btn w-full py-4 rounded-2xl">Create Account</button>
+</div>
+</div>
+
+<script>
+const games=[
+{name:'Crash',img:'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1400&auto=format&fit=crop'},
+{name:'Mines',img:'https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1400&auto=format&fit=crop'},
+{name:'Roulette',img:'https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=1400&auto=format&fit=crop'},
+{name:'Blackjack',img:'https://images.unsplash.com/photo-1606166325683-e6deb697d301?q=80&w=1400&auto=format&fit=crop'},
+{name:'Dragon Tiger',img:'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=1400&auto=format&fit=crop'},
+{name:'HiLo',img:'https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1400&auto=format&fit=crop'},
+{name:'Coin Flip',img:'https://images.unsplash.com/photo-1642052502237-6bbbbb7f0e19?q=80&w=1400&auto=format&fit=crop'},
+{name:'Rock Paper Scissors',img:'https://images.unsplash.com/photo-1523875194681-bedd468c58bf?q=80&w=1400&auto=format&fit=crop'},
+{name:'Waifu Tower',img:'https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1400&auto=format&fit=crop'},
+{name:'Keno',img:'https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=1400&auto=format&fit=crop'},
+{name:'Plinko',img:'https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=1400&auto=format&fit=crop'},
+{name:'Dice',img:'https://images.unsplash.com/photo-1523875194681-bedd468c58bf?q=80&w=1400&auto=format&fit=crop'}
+]
+const gamesEl=document.getElementById('games')
+
+games.forEach(game=>{
+const div=document.createElement('div')
+div.className='game panel rounded-[30px] h-[320px]'
+div.innerHTML=`
+<img src="${game.img}" alt="${game.name}">
+<div class="absolute inset-x-0 bottom-0 p-6 z-10 flex items-end justify-between">
+<div>
+<div class="text-3xl font-black mb-2 tracking-tight">${game.name}</div>
+<div class="flex items-center gap-2 text-zinc-300 text-sm">
+<div class="live-dot"></div>
+${Math.floor(Math.random()*20000)+1000} playing
+</div>
+</div>
+<button onclick="openGame('${game.name}')" class="btn px-5 py-3 rounded-2xl">
+Play
+</button>
+</div>`
+gamesEl.appendChild(div)
+})
+
+function fakeLogin(){alert('Logged in');loginModal.style.display='none'}
+function fakeSignup(){alert('Account created');signupModal.style.display='none'}
+function openGame(g){
+if(g==='Mines') return openMines();
+if(g==='Crash') return openCrash();
+if(g==='Coin Flip') return openCoinflip();
+if(g==='HiLo') return openHiLo();
+if(g==='Rock Paper Scissors') return openRPS();
+if(g==='Dice') return openDice();
+if(g==='Plinko') return openPlinko();
+if(g==='Roulette') return openRoulette();
+alert(g+' launching...')
+}
+
+function createWindow(title,html){
+const w=window.open('','_blank')
+w.document.write(`<!DOCTYPE html><html><head><title>${title}</title><script src="https://cdn.tailwindcss.com"></script><style>body{background:#0b0b12;color:white;font-family:Inter,sans-serif;padding:20px}.card{background:#171722;border:1px solid rgba(255,255,255,.06);border-radius:24px;padding:20px}.btn{background:linear-gradient(90deg,#a855f7,#d946ef);color:black;font-weight:800;border-radius:16px;padding:12px 20px}</style></head><body>${html}</body></html>`)
+}
+
+function openCrash(){
+createWindow('Crash',`
+<div class='card max-w-2xl mx-auto'>
+<h1 class='text-5xl font-black mb-6'>Crash</h1>
+<div id='mult' class='text-7xl text-fuchsia-400 font-black mb-6'>1.00x</div>
+<div class='w-full h-6 rounded-full bg-black/40 overflow-hidden mb-6'><div id='bar' class='h-full bg-gradient-to-r from-violet-400 to-fuchsia-600 w-[5%]'></div></div>
+<button class='btn' onclick='start()'>Start Round</button>
+<button class='btn ml-4' onclick='cash()'>Cash Out</button>
+</div>
+<script>
+let m=1,r=false,i
+function start(){if(r)return;r=true;m=1;i=setInterval(()=>{m+=0.05;mult.innerText=m.toFixed(2)+"x";bar.style.width=Math.min(m*10,100)+"%";if(Math.random()<0.02){clearInterval(i);mult.innerText="CRASHED";r=false}},100)}
+function cash(){if(r){alert("Cashed at "+m.toFixed(2)+"x");clearInterval(i);r=false}}
+</script>`)
+}
+
+function openCoinflip(){
+createWindow('Coin Flip',`
+<div class='card max-w-xl mx-auto text-center'>
+<h1 class='text-5xl font-black mb-6'>Coin Flip</h1>
+<div id='coin' class='text-8xl mb-6'>🪙</div>
+<button class='btn' onclick='flip()'>Flip Coin</button>
+<script>
+function flip(){coin.innerText='⏳';setTimeout(()=>{coin.innerText=Math.random()>.5?'😀 Heads':'🔥 Tails'},1000)}
+</script>`)
+}
+
+function openHiLo(){
+createWindow('HiLo',`
+<div class='card max-w-xl mx-auto text-center'>
+<h1 class='text-5xl font-black mb-6'>HiLo</h1>
+<div id='card' class='text-7xl mb-6'>7</div>
+<div class='flex gap-4 justify-center'>
+<button class='btn' onclick='guess(true)'>Higher</button>
+<button class='btn' onclick='guess(false)'>Lower</button>
+</div>
+<script>
+let current=7
+function guess(h){const next=Math.ceil(Math.random()*13);const win=h?next>current:next<current;card.innerText=next;alert(win?'You Won':'You Lost');current=next}
+</script>`)
+}
+
+function openRPS(){
+createWindow('RPS',`
+<div class='card max-w-xl mx-auto text-center'>
+<h1 class='text-5xl font-black mb-6'>Rock Paper Scissors</h1>
+<div id='result' class='text-3xl mb-6'>Choose your move</div>
+<div class='flex gap-4 justify-center'>
+<button class='btn' onclick='play("Rock")'>🪨</button>
+<button class='btn' onclick='play("Paper")'>📄</button>
+<button class='btn' onclick='play("Scissors")'>✂️</button>
+</div>
+<script>
+function play(choice){const arr=['Rock','Paper','Scissors'];const ai=arr[Math.floor(Math.random()*3)];result.innerText='You: '+choice+' | Bot: '+ai}
+</script>`)
+}
+
+function openDice(){
+createWindow('Dice',`
+<div class='card max-w-xl mx-auto text-center'>
+<h1 class='text-5xl font-black mb-6'>Dice</h1>
+<div id='dice' class='text-8xl mb-6'>🎲</div>
+<button class='btn' onclick='roll()'>Roll</button>
+<script>
+function roll(){dice.innerText=Math.ceil(Math.random()*6)}
+</script>`)
+}
+
+function openPlinko(){
+createWindow('Plinko',`
+<div class='card max-w-2xl mx-auto text-center'>
+<h1 class='text-5xl font-black mb-6'>Plinko</h1>
+<canvas id='c' width='500' height='500' class='bg-black rounded-2xl'></canvas>
+<button class='btn mt-6' onclick='drop()'>Drop Ball</button>
+<script>
+const ctx=c.getContext('2d');let y=0
+function draw(){ctx.clearRect(0,0,500,500);ctx.fillStyle='violet';ctx.beginPath();ctx.arc(250,y,10,0,6.28);ctx.fill()}
+function drop(){y=0;const i=setInterval(()=>{y+=5;draw();if(y>480)clearInterval(i)},16)}
+</script>`)
+}
+
+function openRoulette(){
+createWindow('Roulette',`
+<div class='card max-w-5xl mx-auto'>
+  <div class='flex items-center justify-between mb-8'>
+    <div>
+      <h1 class='text-6xl font-black mb-2'>Roulette</h1>
+      <div class='text-zinc-400'>European Roulette • Live Table</div>
+    </div>
+    <div class='text-right'>
+      <div class='text-zinc-500 text-sm'>Balance</div>
+      <div id='balance' class='text-4xl font-black text-fuchsia-400'>$10000</div>
+    </div>
+  </div>
+
+  <div class='grid lg:grid-cols-[1fr_320px] gap-8'>
+    <div>
+      <div class='relative mb-8'>
+        <div id='wheel' class='w-72 h-72 mx-auto rounded-full border-[14px] border-[#2a2038] relative overflow-hidden shadow-2xl shadow-fuchsia-500/20'>
+          <canvas id='rouletteCanvas' width='500' height='500'></canvas>
         </div>
+        <div class='absolute left-1/2 -translate-x-1/2 top-[-12px] text-4xl'>▼</div>
       </div>
 
-      <section class="grid xl:grid-cols-[1.3fr_0.7fr] gap-6 mb-8">
-        <div class="card p-8 overflow-hidden relative">
-          <div class="absolute right-0 top-0 w-96 h-96 rounded-full blur-3xl bg-fuchsia-500/20"></div>
+      <div class='grid grid-cols-3 sm:grid-cols-6 gap-3 mb-6'>
+        <button class='chip bg-red-500 w-16 h-16 rounded-full text-xl font-black border-4 border-white/20' data-value='10'>$10</button>
+        <button class='chip bg-blue-500 w-16 h-16 rounded-full text-xl font-black border-4 border-white/20' data-value='25'>$25</button>
+        <button class='chip bg-emerald-500 w-16 h-16 rounded-full text-xl font-black border-4 border-white/20' data-value='50'>$50</button>
+        <button class='chip bg-yellow-500 w-16 h-16 rounded-full text-xl font-black border-4 border-white/20' data-value='100'>$100</button>
+        <button class='chip bg-fuchsia-500 w-16 h-16 rounded-full text-xl font-black border-4 border-white/20' data-value='500'>$500</button>
+        <button class='chip bg-white text-black w-16 h-16 rounded-full text-xl font-black border-4 border-black/20' data-value='1000'>$1K</button>
+      </div>
 
-          <div class="relative z-10 flex flex-col lg:flex-row gap-8 items-center justify-between">
-            <div>
-              <div class="inline-flex items-center gap-2 bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 px-4 py-2 rounded-full mb-6">
-                ● LIVE CRASH
-              </div>
+      <div class='bg-[#0d0d15] rounded-[28px] p-4 border border-white/5'>
+        <div class='grid grid-cols-3 gap-2' id='rouletteBoard'></div>
 
-              <h1 class="text-7xl font-black mb-4">CRASH</h1>
-              <div class="text-zinc-400 text-lg max-w-xl mb-8">
-                Cash out before the multiplier crashes.
-              </div>
+        <div class='grid grid-cols-3 gap-3 mt-4'>
+          <button class='outsideBet btn py-4 rounded-2xl' data-bet='red'>RED</button>
+          <button class='outsideBet bg-black border border-white/10 py-4 rounded-2xl' data-bet='black'>BLACK</button>
+          <button class='outsideBet bg-emerald-700 py-4 rounded-2xl' data-bet='green'>0</button>
+        </div>
+      </div>
+    </div>
 
-              <div class="flex gap-4">
-                <button class="bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black px-8 py-4 rounded-2xl glow">
-                  Play Now
-                </button>
+    <div class='space-y-5'>
+      <div class='bg-[#0d0d15] rounded-[28px] p-6 border border-white/5'>
+        <div class='text-zinc-500 text-sm mb-2'>Selected Chip</div>
+        <div id='selectedChip' class='text-5xl font-black text-fuchsia-400'>$10</div>
+      </div>
 
-                <button class="bg-white/5 border border-white/5 px-8 py-4 rounded-2xl">
-                  Watch Live
-                </button>
-              </div>
-            </div>
-
-            <div class="card p-6 w-full max-w-sm">
-              <div class="flex justify-between mb-5">
-                <span class="text-zinc-500">Multiplier</span>
-                <span class="text-6xl font-black text-fuchsia-400 pulse">4.82x</span>
-              </div>
-
-              <div class="h-5 rounded-full bg-black/40 overflow-hidden mb-6">
-                <div class="h-full w-[82%] bg-gradient-to-r from-violet-400 to-fuchsia-600 pulse"></div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-4">
-                <button class="bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black py-4 rounded-2xl">
-                  Cash Out
-                </button>
-                <button class="bg-white/5 py-4 rounded-2xl">
-                  Auto Bet
-                </button>
-              </div>
-            </div>
+      <div class='bg-[#0d0d15] rounded-[28px] p-6 border border-white/5'>
+        <div class='flex items-center justify-between mb-4'>
+          <div>
+            <div class='text-zinc-500 text-sm'>Current Bet</div>
+            <div id='betTotal' class='text-4xl font-black'>$0</div>
           </div>
+          <button onclick='clearBets()' class='bg-white/5 px-4 py-2 rounded-xl'>Clear</button>
         </div>
 
-        <div class="space-y-6">
-          <div class="card p-6">
-            <div class="flex justify-between items-center mb-5">
-              <div class="text-2xl font-black">Rakeback</div>
-              <div class="text-fuchsia-400">VIP 5</div>
-            </div>
+        <button onclick='spinRoulette()' class='btn w-full py-5 rounded-2xl text-2xl'>SPIN</button>
+      </div>
 
-            <div class="space-y-4">
-              <div class="bg-black/30 rounded-2xl p-4">
-                <div class="flex justify-between mb-2">
-                  <span>Daily</span>
-                  <span class="text-fuchsia-400">$1,284</span>
-                </div>
-                <div class="text-sm text-zinc-500">Based on wagered volume</div>
-              </div>
-
-              <div class="bg-black/30 rounded-2xl p-4">
-                <div class="flex justify-between mb-2">
-                  <span>Weekly</span>
-                  <span class="text-fuchsia-400">$8,922</span>
-                </div>
-                <div class="text-sm text-zinc-500">VIP boosted rewards</div>
-              </div>
-
-              <div class="bg-black/30 rounded-2xl p-4">
-                <div class="flex justify-between mb-2">
-                  <span>Monthly</span>
-                  <span class="text-fuchsia-400">$31,492</span>
-                </div>
-                <div class="text-sm text-zinc-500">High roller cashback</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="card p-6">
-            <div class="flex justify-between items-center mb-5">
-              <div class="text-2xl font-black">Crypto Market</div>
-              <div class="text-green-400">LIVE</div>
-            </div>
-
-            <div class="space-y-3">
-              <div class="bg-black/30 rounded-2xl p-4 flex justify-between">
-                <div>
-                  <div class="font-black">BTC</div>
-                  <div class="text-zinc-500 text-sm">Bitcoin</div>
-                </div>
-                <div class="text-right">
-                  <div>$104,933</div>
-                  <div class="text-green-400">+4.3%</div>
-                </div>
-              </div>
-
-              <div class="bg-black/30 rounded-2xl p-4 flex justify-between">
-                <div>
-                  <div class="font-black">ETH</div>
-                  <div class="text-zinc-500 text-sm">Ethereum</div>
-                </div>
-                <div class="text-right">
-                  <div>$4,801</div>
-                  <div class="text-green-400">+2.1%</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="mb-8">
-        <div class="flex justify-between items-center mb-6">
-          <h2 class="text-4xl font-black">Casino Games</h2>
-          <button class="bg-white/5 px-5 py-3 rounded-2xl">View All</button>
-        </div>
-
-        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
-          <script>
-            const games = [
-              'Crash','Mines','Roulette','Blackjack','Dragon Tiger','HiLo','Coin Flip','Rock Paper Scissors','Waifu Tower','Keno','Plinko','Dice','Limbo','Slots','Tower','Wheel'
-            ];
-
-            document.write(games.map(g => `
-              <div class="game-card card overflow-hidden">
-                <div class="h-56 relative overflow-hidden bg-gradient-to-br from-violet-500/40 to-fuchsia-500/20">
-                  <div class="game-img absolute inset-0 flex items-center justify-center text-4xl font-black tracking-tight">${g}</div>
-                  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-                  <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between">
-                    <div>
-                      <div class="text-2xl font-black">${g}</div>
-                      <div class="text-zinc-400 text-sm">${Math.floor(Math.random()*20000)} playing</div>
-                    </div>
-                    <button onclick="alert('Launching ${g}')" class="bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black px-4 py-2 rounded-xl">
-                      Play
-                    </button>
-                  </div>
-                </div>
-              </div>
-            `).join(''));
-          </script>
-        </div>
-      </section>
-    </main>
+      <div class='bg-[#0d0d15] rounded-[28px] p-6 border border-white/5'>
+        <div class='text-2xl font-black mb-4'>Recent Results</div>
+        <div id='history' class='flex gap-2 flex-wrap'></div>
+      </div>
+    </div>
   </div>
-  <script>
-    const sidebar = document.getElementById('sidebar');
-    const mobileBtn = document.getElementById('mobileMenuBtn');
+</div>
 
-    mobileBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('-translate-x-full');
-    });
+<script>
+const numbers=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26]
+const red=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]
+const black=[2,4,6,8,10,11,13,15,17,20,22,24,26,28,29,31,33,35]
+const board=document.getElementById('rouletteBoard')
+const history=document.getElementById('history')
+const canvas=document.getElementById('rouletteCanvas')
+const ctx=canvas.getContext('2d')
+let selected=10
+let bets=[]
+let rotation=0
+let balance=10000
 
-    function updateCryptoPrices() {
-      document.querySelectorAll('.crypto-price').forEach(el => {
-        const current = parseFloat(el.dataset.price || '1000');
-        const variation = (Math.random() * 2 - 1) * 500;
-        const next = Math.max(1, current + variation);
-        el.dataset.price = next;
-        el.innerText = '$' + next.toLocaleString(undefined, {maximumFractionDigits: 0});
-      });
-    }
+function drawWheel(rot=0){
+ctx.clearRect(0,0,500,500)
+ctx.save()
+ctx.translate(250,250)
+ctx.rotate(rot)
+const angle=(Math.PI*2)/numbers.length
+for(let i=0;i<numbers.length;i++){
+ctx.beginPath()
+ctx.moveTo(0,0)
+ctx.arc(0,0,240,i*angle,(i+1)*angle)
+ctx.fillStyle=numbers[i]===0?'#16a34a':red.includes(numbers[i])?'#dc2626':'#111'
+ctx.fill()
+ctx.save()
+ctx.rotate(i*angle+angle/2)
+ctx.fillStyle='white'
+ctx.font='bold 20px sans-serif'
+ctx.fillText(numbers[i],170,8)
+ctx.restore()
+}
+ctx.restore()
+}
 
-    setInterval(updateCryptoPrices, 2500);
-  </script>
+drawWheel()
+
+for(let i=0;i<=36;i++){
+const b=document.createElement('button')
+b.className='relative h-16 rounded-2xl font-black text-xl border border-white/5 '+(i===0?'bg-emerald-700':red.includes(i)?'bg-red-700':'bg-zinc-900')
+b.innerHTML=i
+b.onclick=()=>placeBet(i)
+board.appendChild(b)
+}
+
+document.querySelectorAll('.chip').forEach(c=>{
+c.onclick=()=>{
+selected=parseInt(c.dataset.value)
+selectedChip.innerText='$'+selected
+}
+})
+
+document.querySelectorAll('.outsideBet').forEach(b=>{
+b.onclick=()=>placeBet(b.dataset.bet)
+})
+
+function placeBet(target){
+if(balance<selected)return
+bets.push({target,amount:selected})
+balance-=selected
+balanceEl()
+updateBet()
+}
+
+function updateBet(){
+const total=bets.reduce((a,b)=>a+b.amount,0)
+betTotal.innerText='$'+total
+}
+
+function balanceEl(){
+document.getElementById('balance').innerText='$'+balance.toLocaleString()
+}
+
+function clearBets(){
+const refund=bets.reduce((a,b)=>a+b.amount,0)
+balance+=refund
+bets=[]
+updateBet()
+balanceEl()
+}
+
+function spinRoulette(){
+if(!bets.length)return
+const result=numbers[Math.floor(Math.random()*numbers.length)]
+rotation+=Math.PI*8+(Math.random()*6)
+let frame=0
+const anim=setInterval(()=>{
+frame+=0.03
+const current=rotation*frame
+drawWheel(current)
+if(frame>=1){
+clearInterval(anim)
+finish(result)
+}
+},16)
+}
+
+function finish(result){
+let won=0
+bets.forEach(b=>{
+if(b.target===result)won+=b.amount*35
+if(b.target==='red'&&red.includes(result))won+=b.amount*2
+if(b.target==='black'&&black.includes(result))won+=b.amount*2
+if(b.target==='green'&&result===0)won+=b.amount*14
+})
+if(won>0){
+balance+=won
+alert('WIN: $'+won+' on '+result)
+}else{
+alert('Lost on '+result)
+}
+const chip=document.createElement('div')
+chip.className='w-12 h-12 rounded-full flex items-center justify-center font-black '+(result===0?'bg-emerald-600':red.includes(result)?'bg-red-600':'bg-black border border-white/10')
+chip.innerText=result
+history.prepend(chip)
+if(history.children.length>12)history.removeChild(history.lastChild)
+bets=[]
+updateBet()
+balanceEl()
+}
+</script>`)
+}
+function openMines(){const w=window.open('','_blank');w.document.write('<body style="background:#0b0b12;color:white;font-family:sans-serif"><h1>Mines</h1><p>Playable mines demo.</p></body>')}
+let mult=1
+function startCrash(){setInterval(()=>{mult+=0.1;console.log(mult)},100)}
+const fakeUsers=['xLucky','Nova','GhostBets','Fade','SpinKing','Vaulted','Risky','Ace','Hyper','WagerGod']
+const fakeGames=['Crash','Mines','Roulette','Plinko','Blackjack','Dragon Tower']
+
+setInterval(()=>{
+const msg=document.createElement('div')
+msg.className='chatmsg'
+msg.innerHTML=`<b>${fakeUsers[Math.floor(Math.random()*fakeUsers.length)]}</b>: won $${Math.floor(Math.random()*9000)+100} on ${fakeGames[Math.floor(Math.random()*fakeGames.length)]}`
+document.querySelectorAll('.space-y-2.max-h-72')[0]?.prepend(msg)
+},3000)
+
+let xp=482920
+let vip=37
+
+function gainXP(v){
+xp+=v
+if(xp>vip*25000){
+vip++
+alert('VIP LEVEL UP → '+vip)
+}
+}
+
+const notifications=document.createElement('div')
+notifications.style.position='fixed'
+notifications.style.bottom='20px'
+notifications.style.right='20px'
+notifications.style.zIndex='9999'
+document.body.appendChild(notifications)
+
+function toast(text){
+const t=document.createElement('div')
+t.className='panel rounded-2xl p-4 mb-3'
+t.innerHTML=text
+notifications.appendChild(t)
+setTimeout(()=>t.remove(),4000)
+}
+
+setInterval(()=>{
+const user=fakeUsers[Math.floor(Math.random()*fakeUsers.length)]
+const amount=(Math.random()*100000).toFixed(0)
+const game=fakeGames[Math.floor(Math.random()*fakeGames.length)]
+toast(`<div class='text-zinc-400 text-sm'>BIG WIN</div><div class='text-2xl font-black'>$${amount}</div><div>${user} won on ${game}</div>`)
+},7000)
+
+function fakeDeposit(){
+const amount=Math.floor(Math.random()*50000)+500
+balance+=amount
+balanceEl()
+toast('Deposit confirmed: $'+amount)
+}
+
+function fakeWithdraw(){
+const amount=Math.floor(Math.random()*10000)+100
+if(balance>amount){
+balance-=amount
+balanceEl()
+toast('Withdrawal sent: $'+amount)
+}
+}
+
+localStorage.setItem('shufflex_balance',balance)
+setInterval(()=>{
+localStorage.setItem('shufflex_balance',balance)
+},1000)
+
+window.addEventListener('load',()=>{
+const saved=localStorage.getItem('shufflex_balance')
+if(saved){
+balance=parseInt(saved)
+balanceEl()
+}
+})
+
+function openBlackjack(){
+createWindow('Blackjack',`
+<div class='card max-w-4xl mx-auto'>
+<h1 class='text-5xl font-black mb-8'>Blackjack</h1>
+<div class='grid md:grid-cols-2 gap-6'>
+<div>
+<h2 class='text-2xl mb-4'>Dealer</h2>
+<div id='dealer' class='flex gap-3 text-5xl mb-6'></div>
+</div>
+<div>
+<h2 class='text-2xl mb-4'>Player</h2>
+<div id='player' class='flex gap-3 text-5xl mb-6'></div>
+</div>
+</div>
+<div class='flex gap-4'>
+<button class='btn' onclick='hit()'>Hit</button>
+<button class='btn' onclick='stand()'>Stand</button>
+</div>
+<script>
+const deck=['A','2','3','4','5','6','7','8','9','10','J','Q','K']
+let p=[draw(),draw()],d=[draw(),draw()]
+function draw(){return deck[Math.floor(Math.random()*deck.length)]}
+function val(h){return h.reduce((a,c)=>a+(c==='A'?11:['K','Q','J'].includes(c)?10:parseInt(c)),0)}
+function render(){dealer.innerHTML=d.map(c=>'<div>'+c+'</div>').join('');player.innerHTML=p.map(c=>'<div>'+c+'</div>').join('')}
+function hit(){p.push(draw());render();if(val(p)>21)alert('Bust')}
+function stand(){while(val(d)<17)d.push(draw());render();alert(val(p)>21||val(d)>val(p)?'Dealer Wins':'Player Wins')}
+render()
+</script>`)
+}
+
+</script>
+</main>
+</div>
 </body>
 </html>
