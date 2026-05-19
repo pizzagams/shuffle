@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShuffleX</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      background: #090611;
+      color: white;
+      font-family: Inter, sans-serif;
+      overflow-x: hidden;
+    }
+
+    .glow {
+      box-shadow: 0 0 40px rgba(168,85,247,.35);
+    }
+
+    .card {
+      background: linear-gradient(180deg,#151022,#0f0b17);
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: 28px;
+      transition: .25s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(168,85,247,.45);
+    }
+
+    .sidebar-btn {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,.04);
+      transition: .2s;
+    }
+
+    .sidebar-btn:hover {
+      background: rgba(168,85,247,.14);
+      border-color: rgba(168,85,247,.4);
+    }
+
+    .game-img {
+      transition: .35s;
+    }
+
+    .game-card:hover .game-img {
+      transform: scale(1.08);
+    }
+
+    .pulse {
+      animation: pulse 1.3s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: .55; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <button id="mobileMenuBtn" class="lg:hidden fixed top-5 left-5 z-[100] bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black w-12 h-12 rounded-2xl font-black shadow-2xl shadow-fuchsia-500/30">
+    ☰
+  </button>
+  <div class="fixed inset-0 opacity-30 pointer-events-none" style="background: radial-gradient(circle at top, rgba(168,85,247,.35), transparent 40%)"></div>
+
+  <div class="flex min-h-screen">
+    <aside id="sidebar" class="fixed lg:relative left-0 top-0 bottom-0 z-50 w-72 bg-[#0d0915] border-r border-white/5 p-5 -translate-x-full lg:translate-x-0 transition-transform duration-300 border-r border-white/5 p-5 flex flex-col gap-3">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-400 to-fuchsia-600 flex items-center justify-center text-black font-black text-2xl glow">
+          S
+        </div>
+        <div>
+          <div class="font-black text-2xl">ShuffleX</div>
+          <div class="text-xs text-zinc-500">Crypto Casino</div>
+        </div>
+      </div>
+
+      <button class="sidebar-btn rounded-2xl px-5 py-4 text-left">🎰 Casino</button>
+      <button class="sidebar-btn rounded-2xl px-5 py-4 text-left">⚽ Sports</button>
+      <button class="sidebar-btn rounded-2xl px-5 py-4 text-left">👑 VIP Rewards</button>
+      <button class="sidebar-btn rounded-2xl px-5 py-4 text-left">🏆 Leaderboards</button>
+      <button class="sidebar-btn rounded-2xl px-5 py-4 text-left">💬 Live Chat</button>
+      <button class="sidebar-btn rounded-2xl px-5 py-4 text-left">🎁 Rakeback</button>
+      <button class="sidebar-btn rounded-2xl px-5 py-4 text-left">👤 Profile</button>
+
+      <div class="mt-auto card p-5 glow">
+        <div class="text-zinc-400 text-sm mb-2">Wallet Balance</div>
+        <div class="text-4xl font-black mb-4">$482,194</div>
+        <div class="grid grid-cols-2 gap-3">
+          <button class="bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black rounded-2xl py-3">Deposit</button>
+          <button class="bg-white/5 rounded-2xl py-3">Withdraw</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 p-6">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <div class="text-zinc-500 text-sm mb-2">Online Players</div>
+          <div class="text-5xl font-black">182,491</div>
+        </div>
+
+        <div class="flex gap-3">
+          <button class="px-5 py-3 rounded-2xl bg-white/5">Log In</button>
+          <button class="px-6 py-3 rounded-2xl bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black glow">Sign Up</button>
+        </div>
+      </div>
+
+      <section class="grid xl:grid-cols-[1.3fr_0.7fr] gap-6 mb-8">
+        <div class="card p-8 overflow-hidden relative">
+          <div class="absolute right-0 top-0 w-96 h-96 rounded-full blur-3xl bg-fuchsia-500/20"></div>
+
+          <div class="relative z-10 flex flex-col lg:flex-row gap-8 items-center justify-between">
+            <div>
+              <div class="inline-flex items-center gap-2 bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-400 px-4 py-2 rounded-full mb-6">
+                ● LIVE CRASH
+              </div>
+
+              <h1 class="text-7xl font-black mb-4">CRASH</h1>
+              <div class="text-zinc-400 text-lg max-w-xl mb-8">
+                Cash out before the multiplier crashes.
+              </div>
+
+              <div class="flex gap-4">
+                <button class="bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black px-8 py-4 rounded-2xl glow">
+                  Play Now
+                </button>
+
+                <button class="bg-white/5 border border-white/5 px-8 py-4 rounded-2xl">
+                  Watch Live
+                </button>
+              </div>
+            </div>
+
+            <div class="card p-6 w-full max-w-sm">
+              <div class="flex justify-between mb-5">
+                <span class="text-zinc-500">Multiplier</span>
+                <span class="text-6xl font-black text-fuchsia-400 pulse">4.82x</span>
+              </div>
+
+              <div class="h-5 rounded-full bg-black/40 overflow-hidden mb-6">
+                <div class="h-full w-[82%] bg-gradient-to-r from-violet-400 to-fuchsia-600 pulse"></div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <button class="bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black py-4 rounded-2xl">
+                  Cash Out
+                </button>
+                <button class="bg-white/5 py-4 rounded-2xl">
+                  Auto Bet
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div class="card p-6">
+            <div class="flex justify-between items-center mb-5">
+              <div class="text-2xl font-black">Rakeback</div>
+              <div class="text-fuchsia-400">VIP 5</div>
+            </div>
+
+            <div class="space-y-4">
+              <div class="bg-black/30 rounded-2xl p-4">
+                <div class="flex justify-between mb-2">
+                  <span>Daily</span>
+                  <span class="text-fuchsia-400">$1,284</span>
+                </div>
+                <div class="text-sm text-zinc-500">Based on wagered volume</div>
+              </div>
+
+              <div class="bg-black/30 rounded-2xl p-4">
+                <div class="flex justify-between mb-2">
+                  <span>Weekly</span>
+                  <span class="text-fuchsia-400">$8,922</span>
+                </div>
+                <div class="text-sm text-zinc-500">VIP boosted rewards</div>
+              </div>
+
+              <div class="bg-black/30 rounded-2xl p-4">
+                <div class="flex justify-between mb-2">
+                  <span>Monthly</span>
+                  <span class="text-fuchsia-400">$31,492</span>
+                </div>
+                <div class="text-sm text-zinc-500">High roller cashback</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card p-6">
+            <div class="flex justify-between items-center mb-5">
+              <div class="text-2xl font-black">Crypto Market</div>
+              <div class="text-green-400">LIVE</div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="bg-black/30 rounded-2xl p-4 flex justify-between">
+                <div>
+                  <div class="font-black">BTC</div>
+                  <div class="text-zinc-500 text-sm">Bitcoin</div>
+                </div>
+                <div class="text-right">
+                  <div>$104,933</div>
+                  <div class="text-green-400">+4.3%</div>
+                </div>
+              </div>
+
+              <div class="bg-black/30 rounded-2xl p-4 flex justify-between">
+                <div>
+                  <div class="font-black">ETH</div>
+                  <div class="text-zinc-500 text-sm">Ethereum</div>
+                </div>
+                <div class="text-right">
+                  <div>$4,801</div>
+                  <div class="text-green-400">+2.1%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-8">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-4xl font-black">Casino Games</h2>
+          <button class="bg-white/5 px-5 py-3 rounded-2xl">View All</button>
+        </div>
+
+        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+          <script>
+            const games = [
+              'Crash','Mines','Roulette','Blackjack','Dragon Tiger','HiLo','Coin Flip','Rock Paper Scissors','Waifu Tower','Keno','Plinko','Dice','Limbo','Slots','Tower','Wheel'
+            ];
+
+            document.write(games.map(g => `
+              <div class="game-card card overflow-hidden">
+                <div class="h-56 relative overflow-hidden bg-gradient-to-br from-violet-500/40 to-fuchsia-500/20">
+                  <div class="game-img absolute inset-0 flex items-center justify-center text-4xl font-black tracking-tight">${g}</div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+                  <div class="absolute bottom-5 left-5 right-5 flex items-center justify-between">
+                    <div>
+                      <div class="text-2xl font-black">${g}</div>
+                      <div class="text-zinc-400 text-sm">${Math.floor(Math.random()*20000)} playing</div>
+                    </div>
+                    <button onclick="alert('Launching ${g}')" class="bg-gradient-to-r from-violet-400 to-fuchsia-600 text-black font-black px-4 py-2 rounded-xl">
+                      Play
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `).join(''));
+          </script>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+
+    mobileBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full');
+    });
+
+    function updateCryptoPrices() {
+      document.querySelectorAll('.crypto-price').forEach(el => {
+        const current = parseFloat(el.dataset.price || '1000');
+        const variation = (Math.random() * 2 - 1) * 500;
+        const next = Math.max(1, current + variation);
+        el.dataset.price = next;
+        el.innerText = '$' + next.toLocaleString(undefined, {maximumFractionDigits: 0});
+      });
+    }
+
+    setInterval(updateCryptoPrices, 2500);
+  </script>
+</body>
+</html>
